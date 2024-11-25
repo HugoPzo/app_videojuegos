@@ -1,0 +1,31 @@
+extends ../layout/index.pug
+
+block content
+
+
+    .container
+        h2.text-center.mt-4 Carrito de Compras
+        .table-responsive
+            table.table-carrito
+                thead
+                    tr
+                        th Imagen
+                        th Producto
+                        th Cantidad
+                        th Precio
+                        th Acciones
+                tbody
+                tfoot
+                    tr
+                        td(colspan="3").text-right Total
+                        td $#{total || 0}
+                        td
+                            .acciones-carrito
+                                button.boton.boton-comprar#btnComprar Pagar
+                                a.boton.boton-vaciar(href="#") Vaciar Carrito
+    .modal-compra.hidden
+        .modal-contenido
+            h3 Confirmación de Compra
+            p ¿Estás seguro de que deseas finalizar tu compra?
+            button.boton.boton-finalizar#finalizarCompra Finalizar
+            button.boton.boton-cerrar#cerrarModal Cerrar

@@ -1,114 +1,101 @@
-const carrito = document.querySelector('#carrito');
-const contenedorCarrito = document.querySelector('#lista-carrito tbody'); //id en la tabla
-const vaciarCarritoB = document.querySelector('#vaciar-carrito'); //id en el boton vaciar carrito
-const listaLibros = document.querySelector('#opciones') //div que contiene los libros
-const contenedorTotal = document.querySelector('#total-carrito')
-let itemsCarrito = []
-let totalCarrito = 0
+document.addEventListener("DOMContentLoaded", () => {
+    const botonesAgregarCarrito = document.querySelectorAll(".button.agregar-carrito");
+    const tablaCarrito = document.querySelector("tbody");
+    const contadorElemento = document.querySelector("#contador-carrito");
+    const botonVaciarCarrito = document.querySelector(".boton-vaciar");
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // Cargar carrito desde LocalStorage
 
-registrarListener();
-
-function registrarListener(){
-    // Escuchar el evento de click para agregar libro
-    listaLibros.addEventListener('click', agregarLibro);
-
-    // Eliminar libro
-    carrito.addEventListener('click', eliminarLibro); // corregido el typo
-
-    // Vaciar carrito
-    vaciarCarritoB.addEventListener('click', () => {
-        itemsCarrito = [];
-        totalCarrito = 0
-        HtmlCarrito();
-    });
-}
-
-// Eliminar libro
-function eliminarLibro(evt){
-    evt.preventDefault();
-    if(evt.target.classList.contains('borrar-curso')){
-        const libroId = evt.target.getAttribute('data-id');
-        const libroAEliminar = itemsCarrito.find(libro => libro.id === libroId);
-        
-        if (libroAEliminar) {
-            // Convertir el precio a número y eliminar el símbolo de $
-            let precio = libroAEliminar.precio.replace('$', '');
-            totalCarrito = totalCarrito - (parseFloat(precio) * libroAEliminar.cantidad);
-            
-            // Eliminar libro del carrito
-            itemsCarrito = itemsCarrito.filter(libro => libro.id != libroId);
-            
-            // Actualizar el HTML
-            HtmlCarrito();
+    // Función para actualizar el contador
+    const actualizarContador = () => {
+        const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
+        if (contadorElemento) {
+            contadorElemento.textContent = totalItems;
+            contadorElemento.style.display = totalItems > 0 ? "block" : "none";
         }
-    }
-}
-
-
-// Leer el contenido del libro
-function leerLibro(libro){
-    const libroInfo = {
-        imagen: libro.querySelector("img").src,
-        nombre: libro.querySelector("h4").textContent,
-        precio: libro.querySelector("p").textContent,
-        id: libro.querySelector("a").getAttribute("data-id"), // corregido typo
-        cantidad: 1,
     };
 
-    const existe = itemsCarrito.some(libro => libro.id === libroInfo.id);
-
-    if(existe){
-        const items = itemsCarrito.map(libro => {
-            if(libro.id === libroInfo.id){
-                libro.cantidad++;
-                return libro; // actualiza
+    // Función para renderizar el carrito en la tabla
+    const renderizarCarrito = () => {
+        if (tablaCarrito) {
+            tablaCarrito.innerHTML = ""; // Limpiar tabla
+            if (carrito.length === 0) {
+                tablaCarrito.innerHTML = `
+                    <tr>
+                        <td class="text-center" colspan="5">Tu carrito está vacío.</td>
+                    </tr>`;
             } else {
-                return libro; // sin duplicados
+                carrito.forEach(item => {
+                    tablaCarrito.innerHTML += `
+                        <tr>
+                            <td><img src="${item.imagen}" alt="${item.titulo}" class="img-producto"></td>
+                            <td>${item.titulo}</td>
+                            <td>${item.cantidad}</td>
+                            <td>$${item.precio}</td>
+                            <td>
+                                <a href="#" class="boton boton-eliminar" data-id="${item.id_videojuego}">Eliminar</a>
+                            </td>
+                        </tr>`;
+                });
+            }
+        }
+    };
+
+    // Función para agregar un videojuego al carrito
+    const agregarAlCarrito = (id, titulo, precio, imagen) => {
+        const index = carrito.findIndex(item => item.id_videojuego === id);
+        if (index !== -1) {
+            carrito[index].cantidad++; // Incrementar cantidad si ya está en el carrito
+        } else {
+            carrito.push({ id_videojuego: id, titulo, precio, imagen, cantidad: 1 }); // Agregar nuevo producto
+        }
+        localStorage.setItem("carrito", JSON.stringify(carrito)); // Guardar carrito en LocalStorage
+        actualizarContador();
+        renderizarCarrito();
+    };
+
+    // Función para eliminar un videojuego del carrito
+    const eliminarDelCarrito = (id) => {
+        carrito = carrito.filter(item => item.id_videojuego !== id);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+        actualizarContador();
+        renderizarCarrito();
+    };
+
+    // Evento para los botones "Agregar al carrito"
+    botonesAgregarCarrito.forEach(boton => {
+        boton.addEventListener("click", (e) => {
+            e.preventDefault();
+            const id = parseInt(boton.dataset.id);
+            const titulo = boton.closest(".card-info").querySelector(".card-title").textContent;
+            const precio = parseFloat(boton.closest(".card-info").querySelector(".precio").textContent.replace("$", ""));
+            const imagen = boton.closest(".card").querySelector("img").src;
+            agregarAlCarrito(id, titulo, precio, imagen);
+        });
+    });
+
+    // Evento para eliminar productos
+    if (tablaCarrito) {
+        tablaCarrito.addEventListener("click", (e) => {
+            if (e.target.classList.contains("boton-eliminar")) {
+                e.preventDefault();
+                const id = parseInt(e.target.dataset.id);
+                eliminarDelCarrito(id);
             }
         });
-        itemsCarrito = [...items];
-    } else {
-        itemsCarrito = [...itemsCarrito, libroInfo];
     }
-    // Hacemos una copia y lo agregamos al carrito
 
-    let precio = libroInfo['precio'].replace('$', '');
-    totalCarrito = totalCarrito + parseFloat(precio);
-
-    console.log(itemsCarrito);
-    HtmlCarrito();
-}
-
-// Agregar libro al carrito
-function agregarLibro(evt){
-    evt.preventDefault();
-    if(evt.target.classList.contains('agregar-carrito')){
-        const libroSeleccionado = evt.target.parentElement.parentElement;
-        leerLibro(libroSeleccionado);
+    // Evento para vaciar el carrito
+    if (botonVaciarCarrito) {
+        botonVaciarCarrito.addEventListener("click", (e) => {
+            e.preventDefault();
+            carrito = [];
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            actualizarContador();
+            renderizarCarrito();
+        });
     }
-}
 
-// Mostrar el carrito de compra en HTML
-function HtmlCarrito(){
-    // Limpiar HTML previo
-    limpiarHTML();
-    itemsCarrito.forEach(libros => {
-        const {imagen, nombre, precio, cantidad, id} = libros;
-        const fila = document.createElement('tr');
-        fila.innerHTML = `
-            <td class="td-img"><img src="${imagen}" width="75px"></td>
-            <td>${nombre}</td>
-            <td>${precio}</td>
-            <td id="td-cantidad">${cantidad}</td>
-            <td id="td-borrar"><a id="x" href="#" class="borrar-curso button" data-id="${id}">x</a></td>`;
-        contenedorCarrito.appendChild(fila);
-    });
-    contenedorTotal.innerText = `$${totalCarrito}`
-}
-
-// Limpiar el HTML del carrito
-function limpiarHTML(){
-    while(contenedorCarrito.firstChild){
-        contenedorCarrito.removeChild(contenedorCarrito.firstChild);
-    }
-}
+    // Inicializar
+    actualizarContador();
+    renderizarCarrito();
+});

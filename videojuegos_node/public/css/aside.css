@@ -1,4 +1,4 @@
-.aside{
+.aside {
     width: 15%;
     display: flex;
     flex-direction: column;
@@ -7,9 +7,11 @@
     border: 1px var(--colorTematico) solid;
     border-radius: 15px;
     margin-top: 25px;
+    padding: 10px;
+    transition: all 0.3s ease;
 }
 
-.noticias-header{
+.noticias-header {
     margin: 10px 0 10px;
     text-align: center;
     font-size: 1.05rem;
@@ -19,7 +21,7 @@
     background-color: #1c1c1c;
 }
 
-.noticias-content a{
+.noticias-content a {
     display: inline-block;
     text-decoration: none;
     color: azure;
@@ -29,4 +31,39 @@
     overflow-wrap: break-word;
 }
 
+/* Media Query para pantallas pequeñas */
+@media (max-width: 768px) {
+    .aside {
+        width: 100%; /* La barra lateral se expandirá al 100% en pantallas pequeñas */
+        margin-top: 15px; /* Menor margen para pantallas pequeñas */
+    }
+
+    .noticias-header {
+        font-size: 1rem; /* Reducir el tamaño de fuente para pantallas pequeñas */
+        padding: 8px; /* Aumentar padding para hacer que se vea mejor en pantallas pequeñas */
+    }
+
+    .noticias-content a {
+        font-size: 1rem; /* Reducir el tamaño de fuente de los enlaces */
+        margin: 8px 3px; /* Reducir márgenes para que se vean más ordenados */
+    }
+}
+
+/* Media Query para dispositivos extra pequeños (teléfonos en orientación vertical) */
+@media (max-width: 480px) {
+    .aside {
+        width: 100%; /* Ocupa todo el ancho de la pantalla */
+        padding: 5px; /* Reducir padding en pantallas muy pequeñas */
+    }
+
+    .noticias-header {
+        font-size: 0.95rem; /* Reducir aún más el tamaño del texto */
+        padding: 6px;
+    }
+
+    .noticias-content a {
+        font-size: 0.95rem; /* Ajustar aún más el tamaño de la fuente */
+        margin: 5px 3px;
+    }
+}
 

@@ -1,81 +1,185 @@
-/* carrito de compras */
-
-.carrito-header {
-    height: 70px;
-    display: flex;
-    flex-direction: column;
-    align-content: center;
-    justify-content: center;
-    
+/* Tabla centrada con diseño del nav-bar */
+table {
+    margin: 2rem auto; /* Centra la tabla horizontalmente */
+    border-collapse: collapse;
+    width: 90%;
+    max-width: 800px;
+    background-color: #111111; /* Fondo oscuro, como el navbar */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra como el navbar */
+    color: #e0e0e0; /* Texto claro */
+    overflow: hidden;
 }
 
-.carrito-header h4 {
+thead {
+    background-color: #222; /* Fondo más claro para diferenciar encabezados */
+    color: #fff; /* Texto blanco */
+    font-weight: bold;
+}
+
+td, th {
+    border: 1px solid #333; /* Bordes oscuros */
+    padding: 1rem;
     text-align: center;
-    font-size: 1.5rem;
-    border: 1px solid var(--colorTematico);
-    border-radius: 15px;
-    padding: 5px;
-    background-color: #1c1c1c;
-
+    font-size: 1rem;
 }
 
-
-.carrito-table table {
-    width: 100%;
-    border-radius: 5px;
-    border: 1px solid var(--colorTematico);
-    background-color: #151414;
+tfoot td {
+    font-weight: bold;
+    background-color: #333; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
 }
 
-.carrito-table tbody {
+/* Botones dentro de la tabla */
+table .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+table .btn-danger {
+    background-color: #f00;
+}
+
+table .btn-danger:hover {
+    background-color: #c00;
+}
+
+table .btn-dark {
+    background-color: #333;
+}
+
+table .btn-dark:hover {
+    background-color: #555;
+}
+
+/* Resalta el total en el pie de tabla */
+tfoot td {
+    background-color: #111;
+    color: #f1f1f1;
+}
+
+/* Centra botones generales debajo de la tabla */
+.text-center.mt-4 button {
     display: block;
-    height: 400px;
-    overflow-y: auto;
+    margin: 1rem auto 0;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #111111;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Similar al nav-bar */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.carrito-table thead,
-.carrito-table tfoot {
-    display: table;
-    width: 100%;
-    padding: 10px 0px 10px 0px;
-
-    background: linear-gradient(135deg, rgba(94, 94, 94, 0.1), rgba(255, 255, 255, 0));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+.text-center.mt-4 button:hover {
+    background-color: #222;
+    transform: scale(1.05);
 }
 
-.carrito-table tbody tr {
-    display: table;
-    width: 100%;
-}
-
-td {
+/* Estilo general para todos los botones */
+.boton {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
     text-align: center;
-    text-wrap: pretty;
-    text-align: center;
-    font-size: 0.8rem;
-    width: 78px;
-    padding: 3px;
-
-}
-
-.td-img {
-    padding: 0;
-    display: flex;
-    align-content: center;
-}
-
-.carrito-table thead tr th {
-    width: 78px;
-}
-
-#td-borrar,
-#th-vacio {
-    width: 30px;
-}
-
-
-#x {
     margin: 5px;
-    padding: 5px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+}
+
+/* Botón para comprar */
+.boton-comprar {
+    background-color: #4caf50; /* Verde */
+    color: white;
+}
+
+.boton-comprar:hover {
+    background-color: #45a049; /* Verde más oscuro */
+    transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Botón para vaciar */
+.boton-vaciar {
+    background-color: #333; /* Gris oscuro */
+    color: white;
+}
+
+.boton-vaciar:hover {
+    background-color: #555; /* Gris más claro */
+    transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Botón para eliminar */
+.boton-eliminar {
+    background-color: #f44336; /* Rojo */
+    color: white;
+}
+
+.boton-eliminar:hover {
+    background-color: #d32f2f; /* Rojo más oscuro */
+    transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Botón de cerrar o finalizar en el modal */
+.boton-cerrar,
+.boton-finalizar {
+    background-color: #444; /* Gris intermedio */
+    color: white;
+    padding: 8px 12px;
+}
+
+.boton-cerrar:hover,
+.boton-finalizar:hover {
+    background-color: #555; /* Gris más claro */
+    transform: scale(1.05); /* Efecto de zoom */
+}
+
+/* Estilo general de transición */
+.boton:active {
+    transform: scale(0.95); /* Efecto al hacer clic */
+    opacity: 0.9;
+}
+/* Estilo para el modal */
+.modal-compra {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-compra.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-contenido {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Ocultar el modal cuando tiene la clase 'hidden' */
+.hidden {
+    display: none;
 }

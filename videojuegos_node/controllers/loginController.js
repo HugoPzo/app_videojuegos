@@ -1,7 +1,8 @@
 import Usuario from "../model/usuario.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
-import promisify from "util"
+import { promisify } from 'util';
+
 
 
 const login = (req, res) => {

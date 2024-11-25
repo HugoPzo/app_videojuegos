@@ -3,11 +3,11 @@
 import express from "express";
 import inicio from "./routes/inicio_router.js";
 import router_Login from "./routes/login_router.js";
-import router_Logout from "./routes/logout_router.js"
+import router_Logout from "./routes/logout_router.js";
 import router_Registro from "./routes/registro_router.js";
 import router_Cards from './routes/cards_router.js';
 import router_crud from "./routes/crud_router.js";
-
+import router_carrito from "./routes/carrito_router.js";
 
 import session from "express-session";
 
@@ -27,20 +27,21 @@ const app = express();
 // Procesar datos enviados desde forms
 app.use(express.urlencoded({ extended: true }));
 
+// Conexión a la base de datos
 try {
     await db.authenticate();
     db.sync();
     console.log("Conexion exitosa a la base de datos");
 } catch (error) {
-    console.log(error);
+    console.log("Error de conexión a la base de datos:", error);
+    process.exit(1);  // Detiene el servidor si no se puede conectar a la base de datos
 }
 
+// Seteamos las variables de entorno
+dotenv.config({ path: ".env" });
 
-//seteamios las variables de entorno
-dotenv.config({path:".env"});
-
-// seteamos las cookies 
-app.use(cookieParser()) 
+// Seteamos las cookies 
+app.use(cookieParser());
 
 // Renderizar las paginas
 // pug -> estilo
@@ -48,20 +49,16 @@ app.use(cookieParser())
 app.set("view engine", "pug");
 app.set("views", "./views");
 
-// carpeta publica (Acceso de Usuario)
+// Carpeta pública (Acceso de Usuario)
 app.use(express.static("public"));
 
 
-// Variables de Sesion
-
+// Variables de Sesión
 app.use(session({
-    // Clave
-    secret:"secret",
-    // Guardar sesiones
-    resave: true, 
-
-    saveUninitialized:true
-}))
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true
+}));
 
 // Llamar a los routers
 // routing -> Ruta por default
@@ -71,27 +68,19 @@ app.use("/register", router_Registro);
 app.use("/logout", router_Logout);
 app.use("/verificar", router_Verificar);
 
-app.use(function(req, res, exit) {
-    
+// Middleware para verificar la sesión
+app.use(function(req, res, next) {
     res.locals.loggedin = req.session.loggedin;
-
-    exit();
-})
-
-
-app.use("/consola", router_Cards)
-app.use("/admin", router_crud);
-app.use("/image", express.static("public/image"))
-
-
-// definiendo el puerto -> Puerto de comunicion
-// Se le puede dar >=1024
-const port = 2800;
-app.listen(port, () => {
-    console.log("Esperando peticiones en");
+    next();  // Usamos 'next()' para continuar el flujo
 });
 
+app.use("/carrito", router_carrito);
+app.use("/consola", router_Cards);
+app.use("/admin", router_crud);
+app.use("/image", express.static("public/image"));
 
-
-// // Accesos a los datos del formulario
-// app.use(express.urlencoded({ extended: true }));
+// Definiendo el puerto -> Puerto de comunicación
+const port = 2800;
+app.listen(port, () => {
+    console.log(`Esperando peticiones en el puerto ${port}`);
+});
