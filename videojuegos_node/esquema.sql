@@ -183,3 +183,4 @@ VALUES
 ((SELECT id_videojuego FROM videojuegos WHERE titulo = 'Breath of the Wild'), (SELECT id_plataforma FROM plataformas WHERE nombre = 'Nintendo'), 400.99, 510.99, 100),
 ((SELECT id_videojuego FROM videojuegos WHERE titulo = 'Doom'), (SELECT id_plataforma FROM plataformas WHERE nombre = 'Nintendo'), 280.99, 390.99, 100),
 ((SELECT id_videojuego FROM videojuegos WHERE titulo = 'Among Us'), (SELECT id_plataforma FROM plataformas WHERE nombre = 'Nintendo'), 120.99, 230.99, 100);
+

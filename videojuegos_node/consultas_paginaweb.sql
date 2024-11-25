@@ -51,3 +51,4 @@ DESC videojuego_plataforma;
 SELECT * FROM roles;
 SELECT * FROM usuario;
 SELECT * FROM videojuego;
+
