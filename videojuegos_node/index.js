@@ -8,6 +8,7 @@ import router_Registro from "./routes/registro_router.js";
 import router_Cards from './routes/cards_router.js';
 import router_crud from "./routes/crud_router.js";
 import router_carrito from "./routes/carrito_router.js";
+import router_pago from "./routes/pago_router.js";
 
 import session from "express-session";
 
@@ -74,6 +75,7 @@ app.use(function(req, res, next) {
     next();  // Usamos 'next()' para continuar el flujo
 });
 
+app.use("/consola", router_pago);
 app.use("/carrito", router_carrito);
 app.use("/consola", router_Cards);
 app.use("/admin", router_crud);

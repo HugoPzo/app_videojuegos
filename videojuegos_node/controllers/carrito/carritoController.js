@@ -1,5 +1,6 @@
 import PedidoVideojuegos from "../../model/pedido_videojuego.js";
 import Videojuego from "../../model/videojuego.js";
+import Pago from "../../model/pago.js";
 
 const renderizarCarrito = async (req, res) => {
     try {

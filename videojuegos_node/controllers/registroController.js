@@ -52,7 +52,6 @@ const registrando = async (req, res) => {
                 pass: passHash,
                 token: idGenera(),
                 // provicional
-            confirmar: true,
             id_rol: 1,
     
                 if(error){

@@ -3,9 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const tablaCarrito = document.querySelector("tbody");
     const contadorElemento = document.querySelector("#contador-carrito");
     const botonVaciarCarrito = document.querySelector(".boton-vaciar");
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || []; // Cargar carrito desde LocalStorage
+    const totalElemento = document.querySelector("tfoot td:nth-child(2)");
+    const formularioPago = document.querySelector("#pagoForm");
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
-    // Función para actualizar el contador
     const actualizarContador = () => {
         const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
         if (contadorElemento) {
@@ -14,10 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // Función para renderizar el carrito en la tabla
+    const calcularTotal = () => {
+        return carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0).toFixed(2);
+    };
+
     const renderizarCarrito = () => {
         if (tablaCarrito) {
-            tablaCarrito.innerHTML = ""; // Limpiar tabla
+            tablaCarrito.innerHTML = "";
             if (carrito.length === 0) {
                 tablaCarrito.innerHTML = `
                     <tr>
@@ -30,30 +34,32 @@ document.addEventListener("DOMContentLoaded", () => {
                             <td><img src="${item.imagen}" alt="${item.titulo}" class="img-producto"></td>
                             <td>${item.titulo}</td>
                             <td>${item.cantidad}</td>
-                            <td>$${item.precio}</td>
+                            <td>$${(item.precio * item.cantidad).toFixed(2)}</td>
                             <td>
                                 <a href="#" class="boton boton-eliminar" data-id="${item.id_videojuego}">Eliminar</a>
                             </td>
                         </tr>`;
                 });
             }
+            if (totalElemento) {
+                totalElemento.textContent = `$${calcularTotal()}`;
+            }
         }
     };
 
-    // Función para agregar un videojuego al carrito
     const agregarAlCarrito = (id, titulo, precio, imagen) => {
         const index = carrito.findIndex(item => item.id_videojuego === id);
         if (index !== -1) {
-            carrito[index].cantidad++; // Incrementar cantidad si ya está en el carrito
+            carrito[index].cantidad++;
         } else {
-            carrito.push({ id_videojuego: id, titulo, precio, imagen, cantidad: 1 }); // Agregar nuevo producto
+            carrito.push({ id_videojuego: id, titulo, precio, imagen, cantidad: 1 });
         }
-        localStorage.setItem("carrito", JSON.stringify(carrito)); // Guardar carrito en LocalStorage
+        localStorage.setItem("carrito", JSON.stringify(carrito));
         actualizarContador();
         renderizarCarrito();
+        alert("Se agregó al carrito");
     };
 
-    // Función para eliminar un videojuego del carrito
     const eliminarDelCarrito = (id) => {
         carrito = carrito.filter(item => item.id_videojuego !== id);
         localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -61,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
         renderizarCarrito();
     };
 
-    // Evento para los botones "Agregar al carrito"
     botonesAgregarCarrito.forEach(boton => {
         boton.addEventListener("click", (e) => {
             e.preventDefault();
@@ -73,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Evento para eliminar productos
     if (tablaCarrito) {
         tablaCarrito.addEventListener("click", (e) => {
             if (e.target.classList.contains("boton-eliminar")) {
@@ -84,7 +88,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Evento para vaciar el carrito
     if (botonVaciarCarrito) {
         botonVaciarCarrito.addEventListener("click", (e) => {
             e.preventDefault();
@@ -95,7 +98,25 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Inicializar
+    if (formularioPago) {
+        formularioPago.addEventListener("submit", (e) => {
+            const numeroTarjeta = document.querySelector("#numero_en_tarjeta").value;
+
+            if (numeroTarjeta.length !== 16 || isNaN(numeroTarjeta)) {
+                e.preventDefault();
+                alert("El número de tarjeta debe tener 16 dígitos.");
+                return;
+            }
+
+            // Aquí vaciamos el carrito después de una compra exitosa
+            carrito = [];
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            actualizarContador();
+            renderizarCarrito();
+            alert("Compra realizada con éxito. El carrito se ha vaciado.");
+        });
+    }
+
     actualizarContador();
     renderizarCarrito();
 });

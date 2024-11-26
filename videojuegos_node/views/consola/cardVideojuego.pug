@@ -24,7 +24,7 @@ block content
                     h4.card-title= juego.titulo
                     img.estrellas(src="/image/icons/estrellas.png")
                     p.precio= `$ ${juego.videojuego_plataformas[0].precio}`
-                    p.button.agregar-carrito(data-id=juego.id_videojuego) Añadir al carrito
+                    a.button.agregar-carrito(data-id=juego.id_videojuego) Añadir al carrito
                     a.button.mostrar-video(href=`/consola/${consola}`) Regresar
     
     script.

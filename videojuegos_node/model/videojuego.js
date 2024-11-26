@@ -18,9 +18,9 @@ export const Videojuego = db.define(
         trailer: {
             type: Sequelize.STRING,
         },
-        precio: {
-            type: Sequelize.DECIMAL(10, 2), // Nuevo campo para almacenar precios
-        },
+        /*   precio: {
+              type: Sequelize.DECIMAL(10, 2), // Nuevo campo para almacenar precios
+          }, */
     },
     {
         timestamps: false,
