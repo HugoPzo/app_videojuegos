@@ -3,7 +3,11 @@ IP Modem - Ruta Predeterminada
 
 - SERVIVCIO WEB SERVIDOR
 
+- Direccion Modem
+    http://192.168.1.254
+
 - Direccion IP Computadora
     http://192.168.1.252/
 
-- 
+- Direccion IP Publica
+    201.137.195.225

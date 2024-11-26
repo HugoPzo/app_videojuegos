@@ -83,9 +83,18 @@ app.use("/image", express.static("public/image"));
 
 // Definiendo el puerto -> Puerto de comunicación
 const port = 2800;
-// app.listen(port, () => {
-//     console.log(`Esperando peticiones en el puerto ${port}`);
-// });
+const hostname = "localhost";
 
-http.createServer(app).listen(port, '127.0.0.1');
-console.log("Server Running in http 2800");
+// const server = http.createServer(app);
+
+// server.listen(port, hostname, () =>{
+//     console.log(`Server Running at http://${hostname}:${port}`);
+    
+// })
+
+app.listen(port, () => {
+    console.log(`Server runncin at ${hostname}:${port}`);
+});
+
+// http.Server(app).listen(port, '127.0.0.1');
+// console.log("Server Running");
