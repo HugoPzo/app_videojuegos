@@ -1,18 +1,24 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import db from "../config/db.js";
 import Videojuego from "./videojuego.js"; // Importamos el modelo relacionado
 
 const PedidoVideojuegos = db.define("PedidoVideojuegos", {
     id_pedido: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
     },
     id_videojuego: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
     },
+    nombre: {
+        type: Sequelize.STRING,
+    },
+    precio: {
+        type: Sequelize.INTEGER,
+    },
     cantidad: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
     },
 }, {

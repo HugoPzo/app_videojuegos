@@ -11,7 +11,15 @@ block content
                         h4.card-title= juego.titulo
                         img.estrellas(src="/image/icons/estrellas.png")
                         p.precio= `$ ${juego.videojuego_plataformas[0].precio}`
-                        a.button.agregar-carrito(data-id=juego.id_videojuego) Añadir al carrito
+                        form(action="/carrito/agregar", method="POST")
+                            input(type="hidden", name="id_videojuego", value=juego.id_videojuego)
+                            input(type="hidden", name="plataforma", value=juego.videojuego_plataformas[0].plataforma.dataValues.nombre)
+                            input(type="hidden", name="titulo", value=juego.titulo)
+                            input(type="hidden", name="precio", value=juego.videojuego_plataformas[0].precio)
+                            input(type="hidden", name="imagen", value=juego.imagen)
+                            input(type="hidden", name="cantidad", value="1")
+                            button(type="submit").button Agregar al carrito
+
                         a.button.mostrar-video(href=`/consola/${consola}/${juego.id_videojuego}`) Ver más
 
     if showVideo 
@@ -24,7 +32,14 @@ block content
                     h4.card-title= juego.titulo
                     img.estrellas(src="/image/icons/estrellas.png")
                     p.precio= `$ ${juego.videojuego_plataformas[0].precio}`
-                    a.button.agregar-carrito(data-id=juego.id_videojuego) Añadir al carrito
+                            form(action="/carrito/agregar", method="POST")
+                            input(type="hidden", name="id_videojuego", value=juego.id_videojuego)
+                            input(type="hidden", name="plataforma", value=juego.videojuego_plataformas[0].plataforma.dataValues.nombre)
+                            input(type="hidden", name="titulo", value=juego.titulo)
+                            input(type="hidden", name="precio", value=juego.videojuego_plataformas[0].precio)
+                            input(type="hidden", name="imagen", value=juego.imagen)
+                            input(type="hidden", name="cantidad", value="1")
+                            button(type="submit").button Agregar al carrito
                     a.button.mostrar-video(href=`/consola/${consola}`) Regresar
     
     script.
