@@ -2,7 +2,7 @@
 import { Videojuego, Plataforma, Videojuego_plataformas } from "../../model/modelos.js"
 import { Op } from "sequelize";
 
-async function consulta( valores) {
+async function consulta(valores) {
     let juegos = await Videojuego.findAll({
         attributes: ['id_videojuego', 'titulo', 'imagen', 'trailer'],  // Atributos que deseas obtener de la tabla `videojuego`
         include: [
@@ -54,11 +54,18 @@ async function consultaVideojuego(valores) {
 const renderizarCardVideojuego = async (req, res) => {
     const consola = req.params.consola;
     const valores = [consola];
+    // Inicializar el carrito si no existe
+    if (!req.session.carrito) {
+        req.session.carrito = [];
+    }
+    const carrito = req.session.carrito;
+    const num_items = carrito.length;
     try {
         const juegos = await consulta(valores);
         res.render("consola/cardVideojuego", {
             juegos: juegos,
             consola: consola,
+            num_items, num_items,
             showVideo: false,
         })
     } catch (error) {

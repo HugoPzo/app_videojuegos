@@ -1,4 +1,4 @@
-extends ../layout/index.pug
+extends ../carrito/car.pug
 
 block content
     .container
@@ -10,20 +10,40 @@ block content
                     tr
                         th Imagen
                         th Producto
+                        th Plataforma
                         th Cantidad
                         th Precio
                         th Acciones
                 tbody
+                    if carrito.length == 0
+                        td.text-center(colspan="5") Tu carrito está vacío.
+                    else 
+                        each item in carrito
+                            tr
+                                td
+                                    img.img-producto(src=item.imagen, alt=item.titulo)
+                                td= item.titulo
+                                td= item.plataforma
+                                td= item.cantidad
+                                td $#{(Number(item.precio) * Number(item.cantidad)).toFixed(2)}
+
+                                td
+                                    form(action="/carrito/eliminar", method="POST")
+                                        input(type="hidden", name="id_videojuego", value=item.id_videojuego)
+                                        input(type="hidden", name="plataforma", value=item.plataforma)
+                                        input(type="hidden", name="cantidad", value="1")
+                                        button(type="submit").boton.boton-eliminar Eliminar
+
                 tfoot
                     tr
-                        td(colspan="3").text-right Total
+                        td(colspan="4").text-right Total
                         td $#{total || 0}
                         td
                             .acciones-carrito
                                 //button.boton.boton-comprar#btnComprar Pagar
-                                a.boton.boton-vaciar(href="#") Vaciar Carrito
+                                a.boton.boton-vaciar(href="/carrito/vaciar") Vaciar Carrito
 
-        form#pagoForm(method="POST" action="/consola/carrito/pagar")
+        form#pagoForm(method="POST" action="/carrito/pago")
             h3.mt-5 Detalles de Pago
             .form-group
                 label(for="nombre_en_tarjeta") Nombre en la tarjeta

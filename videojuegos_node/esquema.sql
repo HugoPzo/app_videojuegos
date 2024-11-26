@@ -86,6 +86,8 @@ CREATE TABLE videojuego_plataformas(
 CREATE TABLE pedido_videojuegos(
 	id_pedido		INT NOT NULL,
     id_videojuego	INT NOT NULL,
+    nombre          varchar(20) NOT NULL,
+    precio          FLOAT(10) NOT NULL,
     cantidad        INT(10) NOT NULL,
     FOREIGN KEY(id_pedido) REFERENCES pedidos(id_pedido),
     FOREIGN KEY(id_videojuego) REFERENCES videojuegos(id_videojuego)

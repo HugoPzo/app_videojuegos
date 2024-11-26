@@ -6,8 +6,15 @@ const inicio = async (req, res) => {
     try {
         const juegos = await buscarJuegos(); // Aseguramos que esperar los juegos
         
+        // Inicializar el carrito si no existe
+        if (!req.session.carrito) {
+            req.session.carrito = [];
+        }
+        const carrito = req.session.carrito;
+        const num_items = carrito.length;
         res.render("inicio", {
             juegos: juegos, // Pasamos los juegos a la vista
+            num_items: num_items
         });
     } catch (error) {
         console.error("Error en inicio:", error);
@@ -34,7 +41,7 @@ async function buscarJuegos() {
 
         // Obtener el juego basado en la plataforma y el id aleatorio
         const juego = await consultaVideojuego([plataforma_aleatorio, id_aleatorio]);
-        
+
         if (juego) {
             // Verificar si ya hemos agregado este juego para la plataforma seleccionada
             const juegoTitulo = juego.titulo;
