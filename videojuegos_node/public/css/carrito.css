@@ -96,9 +96,23 @@ tfoot td {
 }
 
 /* Botón para comprar */
+
+.boton-leer {
+    background-color: #4c66af; /* Verde */
+    color: white;
+}
+
+.boton-leer:hover {
+    background-color: #3c5aaa; /* Verde */
+    color: white;
+}
+
 .boton-comprar {
     background-color: #4caf50; /* Verde */
     color: white;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .boton-comprar:hover {

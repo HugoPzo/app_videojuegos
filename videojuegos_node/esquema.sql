@@ -31,7 +31,7 @@ CREATE TABLE usuarios(
 CREATE TABLE pagos(
     id_pago                 INT NOT NULL AUTO_INCREMENT,
     nombre_en_tarjeta       varchar(30) NOT NULL,
-    numero_en_tarjeta       INT(16) NOT NULL,
+    numero_en_tarjeta       varchar (19) NOT NULL,
     vencimiento             DATETIME NOT NULL,
     direccion               varchar(100) NOT NULL,
     id_usuario				INT NOT NULL,

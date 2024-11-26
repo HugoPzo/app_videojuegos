@@ -1,10 +1,9 @@
 extends ../layout/index.pug
 
 block content
-
-
     .container
         h2.text-center.mt-4 Carrito de Compras
+        br
         .table-responsive
             table.table-carrito
                 thead
@@ -21,11 +20,28 @@ block content
                         td $#{total || 0}
                         td
                             .acciones-carrito
-                                button.boton.boton-comprar#btnComprar Pagar
+                                //button.boton.boton-comprar#btnComprar Pagar
                                 a.boton.boton-vaciar(href="#") Vaciar Carrito
-    .modal-compra.hidden
-        .modal-contenido
-            h3 Confirmación de Compra
-            p ¿Estás seguro de que deseas finalizar tu compra?
-            button.boton.boton-finalizar#finalizarCompra Finalizar
-            button.boton.boton-cerrar#cerrarModal Cerrar
+
+        form#pagoForm(method="POST" action="/consola/carrito/pagar")
+            h3.mt-5 Detalles de Pago
+            .form-group
+                label(for="nombre_en_tarjeta") Nombre en la tarjeta
+                input#nombre_en_tarjeta.inputs(type="text" name="nombre_en_tarjeta" required)
+            .form-group
+                label(for="numero_en_tarjeta") Número de tarjeta
+                input#numero_en_tarjeta.inputs(type="text" name="numero_en_tarjeta" maxlength="16" required)
+            .form-group
+                label(for="vencimiento") Fecha de vencimiento
+                input#vencimiento.inputs(type="date" name="vencimiento" required)
+            .form-group
+                label(for="direccion") Dirección
+                input#direccion.inputs(type="text" name="direccion" required)
+            input(type="hidden" name="id_usuario" value="1")
+            br
+            button.boton.boton-comprar(type="submit") Confirmar Pago
+
+
+
+
+
