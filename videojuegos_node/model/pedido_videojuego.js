@@ -4,7 +4,7 @@ import Videojuego from "./videojuego.js"; // Importamos el modelo relacionado
 
 const PedidoVideojuegos = db.define("PedidoVideojuegos", {
     id_pedido: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         primaryKey: true,
     },
     id_videojuego: {
@@ -26,7 +26,5 @@ const PedidoVideojuegos = db.define("PedidoVideojuegos", {
     timestamps: false,
 });
 
-// Definir la relación
-PedidoVideojuegos.belongsTo(Videojuego, { foreignKey: "id_videojuego" });
 
 export default PedidoVideojuegos;

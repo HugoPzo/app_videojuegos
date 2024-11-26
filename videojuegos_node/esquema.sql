@@ -42,7 +42,7 @@ CREATE TABLE pagos(
 
 
 CREATE TABLE pedidos (
-    id_pedido   INT NOT NULL AUTO_INCREMENT,
+    id_pedido   VARCHAR(10) NOT NULL,
     fecha       DATE NOT NULL,
     total       FLOAT NOT NULL,
     id_usuario	INT NOT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE videojuego_plataformas(
 );
 
 CREATE TABLE pedido_videojuegos(
-	id_pedido		INT NOT NULL,
+	id_pedido		VARCHAR(10) NOT NULL,
     id_videojuego	INT NOT NULL,
     nombre          varchar(20) NOT NULL,
     precio          FLOAT(10) NOT NULL,
