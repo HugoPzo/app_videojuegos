@@ -1,5 +1,5 @@
 // import = requires
-
+import http from "http";
 import express from "express";
 import inicio from "./routes/inicio_router.js";
 import router_Login from "./routes/login_router.js";
@@ -81,6 +81,9 @@ app.use("/image", express.static("public/image"));
 
 // Definiendo el puerto -> Puerto de comunicación
 const port = 2800;
-app.listen(port, () => {
-    console.log(`Esperando peticiones en el puerto ${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Esperando peticiones en el puerto ${port}`);
+// });
+
+http.createServer(app).listen(port, '127.0.0.1');
+console.log("Server Running in http 2800");
